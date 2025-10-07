@@ -114,6 +114,23 @@
                     <h:outputText value="Piloto"/>
                     <h:outputText
                             value="#{flightBean.selected.pilot.fullName} (#{flightBean.selected.pilot.licenseCode})"/>
+                    <!-- Confirmación de eliminación -->
+                    <p:confirmDialog id="confirmDeleteDlg" widgetVar="confirmDelete"
+                                     message="¿Está seguro de que desea eliminar este vuelo?"
+                                     header="Confirmar eliminación" icon="pi pi-exclamation-triangle"
+                                     severity="warn" closable="false">
+
+                        <p:commandButton value="Sí, eliminar" icon="pi pi-check"
+                                         actionListener="#{flightBean.deleteSelected}"
+                                         process="@this"
+                                         update=":global:msgs :frmFlights:cal"
+                                         oncomplete="PF('confirmDelete').hide(); PF('dlgDetail').hide(); PF('sch').update();"
+                                         styleClass="ui-button-danger"/>
+
+                        <p:commandButton value="Cancelar" icon="pi pi-times"
+                                         onclick="PF('confirmDelete').hide(); return false;"
+                                         styleClass="ui-button-secondary"/>
+                    </p:confirmDialog>
 
                     <h:outputText value="Aeronave"/>
                     <h:outputText
@@ -140,6 +157,11 @@
                       modal="true" appendTo="@form" baseZIndex="100000"
                       resizable="false" draggable="false" width="920"
                       visible="#{flightBean.dialogVisible}">
+
+                <p:commandButton value="Eliminar" icon="pi pi-trash"
+                                 styleClass="ui-button-danger"
+                                 onclick="PF('confirmDelete').show(); return false;"/>
+
 
                 <p:messages id="msgFlight" showSummary="true" showDetail="false"
                             closable="true" layout="list" styleClass="fieldErrors"/>

@@ -63,7 +63,6 @@ public class FlightBean implements Serializable {
         }
     }
 
-
     public void save() {
         Set<ConstraintViolation<Flight>> violations = validator.validate(flight);
 
@@ -83,7 +82,6 @@ public class FlightBean implements Serializable {
             return;
         }
 
-
         flights.save(flight);
         reloadSchedule();
         this.dialogVisible = false;
@@ -92,8 +90,8 @@ public class FlightBean implements Serializable {
         this.flight = new Flight();
     }
 
-    public void editSelected(){
-        if( selected != null ) {
+    public void editSelected() {
+        if (selected != null) {
             this.flight = selected;
             this.dialogVisible = true;
             this.detailVisible = false;
@@ -118,6 +116,28 @@ public class FlightBean implements Serializable {
             model.addEvent(ev);
         }
         this.schedule = model;
+    }
+
+    public void deleteSelected() {
+        try {
+            if (selected != null) {
+                flights.delete(selected); // usa FlightService
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO,
+                                "El vuelo fue eliminado correctamente.", null));
+                selected = null;
+                detailVisible = false; // oculta el panel de detalles
+                reloadSchedule(); // recarga correctamente el calendario
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN,
+                                "No hay vuelo seleccionado para eliminar.", null));
+            }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error al eliminar el vuelo: " + e.getMessage(), null));
+        }
     }
 
     private void clearFacesMessages() {
@@ -145,7 +165,6 @@ public class FlightBean implements Serializable {
 
         return labels.getOrDefault(fieldName, fieldName);
     }
-
 
     // getters/setters
     public Flight getFlight() {
@@ -191,5 +210,4 @@ public class FlightBean implements Serializable {
     public void setDetailVisible(boolean b) {
         this.detailVisible = b;
     }
-
 }
