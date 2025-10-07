@@ -114,23 +114,6 @@
                     <h:outputText value="Piloto"/>
                     <h:outputText
                             value="#{flightBean.selected.pilot.fullName} (#{flightBean.selected.pilot.licenseCode})"/>
-                    <!-- Confirmación de eliminación -->
-                    <p:confirmDialog id="confirmDeleteDlg" widgetVar="confirmDelete"
-                                     message="¿Está seguro de que desea eliminar este vuelo?"
-                                     header="Confirmar eliminación" icon="pi pi-exclamation-triangle"
-                                     severity="warn" closable="false">
-
-                        <p:commandButton value="Sí, eliminar" icon="pi pi-check"
-                                         actionListener="#{flightBean.deleteSelected}"
-                                         process="@this"
-                                         update=":global:msgs :frmFlights:cal"
-                                         oncomplete="PF('confirmDelete').hide(); PF('dlgDetail').hide(); PF('sch').update();"
-                                         styleClass="ui-button-danger"/>
-
-                        <p:commandButton value="Cancelar" icon="pi pi-times"
-                                         onclick="PF('confirmDelete').hide(); return false;"
-                                         styleClass="ui-button-secondary"/>
-                    </p:confirmDialog>
 
                     <h:outputText value="Aeronave"/>
                     <h:outputText
@@ -278,7 +261,22 @@
                     </div>
                 </f:facet>
             </p:dialog>
+            <p:confirmDialog id="confirmDeleteDlg" widgetVar="confirmDelete"
+                             message="¿Está seguro de que desea eliminar este vuelo?"
+                             header="Confirmar eliminación" icon="pi pi-exclamation-triangle"
+                             severity="warn" closable="false" appendTo="@(body)">
 
+                <p:commandButton value="Sí, eliminar" icon="pi pi-check"
+                                 actionListener="#{flightBean.deleteSelected}"
+                                 process="@this"
+                                 update=":global:msgs :frmFlights:cal"
+                                 oncomplete="PF('confirmDelete').hide(); PF('dlgDetail').hide(); PF('dlgFlight').hide(); PF('sch').update();"
+                                 styleClass="ui-button-danger"/>
+
+                <p:commandButton value="Cancelar" icon="pi pi-times"
+                                 onclick="PF('confirmDelete').hide(); return false;"
+                                 styleClass="ui-button-secondary"/>
+            </p:confirmDialog>
         </h:form>
     </ui:define>
 </ui:composition>
