@@ -1,7 +1,6 @@
 package com.darwinruiz.airops.controllers;
 
 import com.darwinruiz.airops.models.Aircraft;
-import com.darwinruiz.airops.models.Pilot;
 import com.darwinruiz.airops.services.CatalogService;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
